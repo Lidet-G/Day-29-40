@@ -1,4 +1,5 @@
 import "./globals.css";
+import Link from "next/link";
 import { Providers } from "./providers";
 
 export const metadata = {
@@ -11,15 +12,17 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <header className="site-header">
-          <h1>Addis Eats</h1>
+          <Link className="brand" href="/">Addis Eats</Link>
+          <nav className="main-nav" aria-label="Main navigation">
+            <Link href="/">Home</Link>
+            <Link href="/menu">Menu</Link>
+            <Link href="/cart">Cart</Link>
+            <Link href="/checkout">Checkout</Link>
+          </nav>
         </header>
-
-        <Providers>
-          {children}
-        </Providers>
-
+        <Providers>{children}</Providers>
         <footer className="site-footer">
-          <p>© Addis Eats</p>
+          <p>© Addis Eats — Ethiopian food, made with care.</p>
         </footer>
       </body>
     </html>

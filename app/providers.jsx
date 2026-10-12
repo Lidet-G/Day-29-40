@@ -1,6 +1,6 @@
 "use client";
 
-import { CartProvider } from "./Cart/CartContext";
+import { CartProvider } from "./cart/CartContext";
 
 export function Providers({ children }) {
   return (

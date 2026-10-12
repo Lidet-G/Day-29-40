@@ -1,58 +1,9 @@
-# Addis Eats Rendering Strategy
+# Rendering strategy — Day 40
 
-## `/`
-
-**Strategy: Static**
-
-The home page contains general restaurant information.
-It does not need different HTML for every visitor.
-
-## `/menu`
-
-**Strategy: Incremental Static Regeneration (ISR)**
-
-The menu uses `revalidate = 60`, allowing the route
-to be regenerated after its revalidation period.
-
-Category filtering uses a client component inside
-Suspense so the server page does not directly read
-the query string.
-
-## `/menu/[id]`
-
-**Strategy: Static generation**
-
-The `generateStaticParams()` function returns the
-known dish IDs before the build.
-
-There are five dishes, so five dish pages should be
-generated during the build.
-
-## `/checkout`
-
-**Strategy: Dynamic rendering**
-
-The route uses `dynamic = "force-dynamic"` and reads
-the current request's session cookie with `cookies()`.
-
-The response can depend on the visitor's session.
-
-## Loading and error boundaries
-
-`app/menu/loading.js` displays loading UI while the
-menu segment loads.
-
-`app/menu/error.js` provides an error boundary for
-errors in the menu segment.
-
-These files provide UI boundaries; they are not
-separate public routes.
-
-## Summary
-
-| Route | Strategy | Reason |
-|---|---|---|
-| `/` | Static | General restaurant information |
-| `/menu` | ISR | Menu content can be regenerated |
-| `/menu/[id]` | Static generation | Dish IDs are known at build time |
-| `/checkout` | Dynamic | Reads request-specific session data |
+- `/`: static-friendly landing page with specials. `revalidate = 60` allows the page to be regenerated periodically.
+- `/menu`: `revalidate = 60` uses Incremental Static Regeneration (ISR). The current course data function is asynchronous local sample data; replace it with the course API/database source if required by the lecturer.
+- `/menu/[id]`: `generateStaticParams()` lists known dish IDs at build time. `dynamicParams = false` prevents unknown IDs from becoming new dynamic pages.
+- `/cart`: client component because quantities and the running total change through user interaction.
+- `/checkout`: `dynamic = "force-dynamic"` because it reads the request's `session` cookie using `cookies()`.
+- `/api/dishes` and `/api/dishes/[id]`: GET route handlers return JSON.
+- `/api/orders`: POST route handler validates the session and order data before calculating a server-side total.

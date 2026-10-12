@@ -1,10 +1,9 @@
-
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
 
 const categories = [
-  { label: "All", value: "all" },
+  { label: "All dishes", value: "all" },
   { label: "Main dishes", value: "main" },
   { label: "Vegetarian", value: "vegetarian" },
   { label: "Drinks", value: "drinks" },
@@ -17,13 +16,8 @@ export default function CategoryBar() {
 
   function selectCategory(category) {
     const params = new URLSearchParams(searchParams.toString());
-
-    if (category === "all") {
-      params.delete("category");
-    } else {
-      params.set("category", category);
-    }
-
+    if (category === "all") params.delete("category");
+    else params.set("category", category);
     const query = params.toString();
     router.push(query ? `/menu?${query}` : "/menu");
   }
@@ -34,13 +28,9 @@ export default function CategoryBar() {
         <button
           key={category.value}
           type="button"
-          className={
-            selected === category.value
-              ? "category-button active"
-              : "category-button"
-          }
-          onClick={() => selectCategory(category.value)}
+          className={selected === category.value ? "category-button active" : "category-button"}
           aria-pressed={selected === category.value}
+          onClick={() => selectCategory(category.value)}
         >
           {category.label}
         </button>

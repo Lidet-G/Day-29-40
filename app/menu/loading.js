@@ -1,8 +1,3 @@
 export default function Loading() {
-  return (
-    <div className="loading">
-      <h2>Loading menu...</h2>
-      <p>Please wait while the menu loads.</p>
-    </div>
-  );
+  return <div className="loading" role="status">Loading menu...</div>;
 }

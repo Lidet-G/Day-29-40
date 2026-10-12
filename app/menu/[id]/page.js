@@ -1,73 +1,30 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
-
-const dishes = [
-  {
-    id: "kitfo",
-    name: "Kitfo",
-    category: "Main dishes",
-    description: "Minced beef seasoned with Ethiopian spices and butter.",
-    price: 450,
-  },
-  {
-    id: "shiro",
-    name: "Shiro",
-    category: "Vegetarian",
-    description: "A traditional Ethiopian chickpea stew.",
-    price: 250,
-  },
-  {
-    id: "doro-wot",
-    name: "Doro Wot",
-    category: "Main dishes",
-    description: "Spicy Ethiopian chicken stew served with injera.",
-    price: 500,
-  },
-  {
-    id: "tibs",
-    name: "Tibs",
-    category: "Main dishes",
-    description: "Sautéed beef with onions, peppers and spices.",
-    price: 400,
-  },
-  {
-    id: "tej",
-    name: "Tej",
-    category: "Drinks",
-    description: "A traditional Ethiopian honey drink.",
-    price: 300,
-  },
-];
+import { getDishes, getDishById } from "../data";
+import AddToCartButton from "./AddToCartButton";
 
 export async function generateStaticParams() {
-  return dishes.map((dish) => ({
-    id: dish.id,
-  }));
+  const dishes = await getDishes();
+  return dishes.map((dish) => ({ id: dish.id }));
 }
+
+export const dynamicParams = false;
 
 export default async function DishPage({ params }) {
   const { id } = await params;
-
-  const dish = dishes.find((item) => item.id === id);
-
-  if (!dish) {
-    notFound();
-  }
+  const dish = await getDishById(id);
+  if (!dish) notFound();
 
   return (
-    <article className="dish-detail">
-      <h1>{dish.name}</h1>
-
-      <p>
-        <strong>Category:</strong> {dish.category}
-      </p>
-
-      <p>{dish.description}</p>
-
-      <p>
-        <strong>Price:</strong> {dish.price} ETB
-      </p>
-
-      <a href="/menu">Back to menu</a>
-    </article>
+    <main className="page">
+      <article className="dish-detail">
+        <p className="eyebrow">{dish.category}</p>
+        <h1>{dish.name}</h1>
+        <p>{dish.description}</p>
+        <p className="price">{dish.price} ETB</p>
+        <AddToCartButton dish={dish} />
+        <p><Link href="/menu">← Back to menu</Link></p>
+      </article>
+    </main>
   );
 }

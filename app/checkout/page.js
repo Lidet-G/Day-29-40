@@ -1,29 +1,17 @@
 import { cookies } from "next/headers";
+import CheckoutForm from "./CheckoutForm";
 
 export const dynamic = "force-dynamic";
 
 export default async function CheckoutPage() {
   const cookieStore = await cookies();
-  const sessionCookie = cookieStore.get("session");
-  const isSignedIn = Boolean(sessionCookie);
+  const signedIn = Boolean(cookieStore.get("session"));
 
   return (
-    <section className="checkout">
+    <main className="page">
       <h1>Checkout</h1>
-
-      <p>
-        Review your order before completing your purchase.
-      </p>
-
-      {isSignedIn ? (
-        <p>Your session is available.</p>
-      ) : (
-        <p>Please sign in before completing your order.</p>
-      )}
-
-      <button type="button" disabled={!isSignedIn}>
-        Place order
-      </button>
-    </section>
+      <p>Review your order before completing your purchase.</p>
+      <CheckoutForm signedIn={signedIn} />
+    </main>
   );
 }

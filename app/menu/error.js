@@ -1,15 +1,11 @@
 "use client";
 
-export default function Error({ error, reset }) {
+export default function MenuError({ reset }) {
   return (
-    <div className="error">
+    <div className="error" role="alert">
       <h2>Something went wrong.</h2>
-
-      <p>{error.message}</p>
-
-      <button onClick={() => reset()}>
-        Try again
-      </button>
+      <p>The menu could not be loaded. Please try again.</p>
+      <button className="button" onClick={() => reset()}>Try again</button>
     </div>
   );
 }
