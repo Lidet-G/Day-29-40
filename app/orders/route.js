@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { z } from "zod";
-import { getDishes } from "../../menu/data";
+import { getDishes } from "../menu/data";
 
 const OrderSchema = z.object({
   items: z.array(z.object({

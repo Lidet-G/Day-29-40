@@ -2,7 +2,7 @@
 
 import { CartProvider } from "./cart/CartContext";
 
-export function Providers({ children }) {
+export default function Providers({ children }) {
   return (
     <CartProvider>
       {children}
